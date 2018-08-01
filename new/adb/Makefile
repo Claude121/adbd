@@ -1,5 +1,9 @@
 # makefile to build adbd natively for linux:
 CROSS_COMPILE ?=
+CC  =$(CROSS_COMPILE)gcc
+CXX =$(CROSS_COMPILE)g++
+RANLIB =$(CROSS_COMPILE)ranlib
+
 openssldir ?= .
 top_srcdir ?= ..
 srcdir = $(top_srcdir)/adb
@@ -72,7 +76,7 @@ LOCAL_STATIC_LIBRARIES := libcutils libc
 ################################
 
 OBJS = $(LOCAL_SRC_FILES:.cpp=.o) $(LOCAL_SRC_C_FILES:.c=.o)
-CXXFLAGS = $(OPT_CXXFLAGS) -std=c++14 $(LOCAL_CFLAGS) $(LOCAL_INCLUDES)
+CXXFLAGS = $(OPT_CXXFLAGS) -std=c++11 $(LOCAL_CFLAGS) $(LOCAL_INCLUDES)
 CFLAGS= $(OPT_CFLAGS) $(LOCAL_CFLAGS) $(LOCAL_INCLUDES)
 
 %.o: %.cpp

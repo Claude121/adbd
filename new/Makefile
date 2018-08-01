@@ -1,4 +1,9 @@
 export openssldir := /home/claude.rao/Code/adbd/openssl
+export CROSS_COMPILE :=arm-linux-
+CC  ?=$(CROSS_COMPILE)gcc
+CXX ?=$(CROSS_COMPILE)g++
+RANLIB ?=$(CROSS_COMPILE)ranlib
+
 top_srcdir ?= .
 VPATH = $(top_srcdir)
 include $(top_srcdir)/include.mk

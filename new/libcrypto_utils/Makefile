@@ -1,4 +1,9 @@
 openssldir ?= .
+CROSS_COMPILE ?=
+CC  =$(CROSS_COMPILE)gcc
+CXX =$(CROSS_COMPILE)g++
+RANLIB =$(CROSS_COMPILE)ranlib
+
 top_srcdir ?= ..
 srcdir = $(top_srcdir)/libcrypto_utils
 VPATH = $(srcdir)
@@ -23,9 +28,9 @@ all: $(LOCAL_MODULE)
 
 $(LOCAL_MODULE): $(OBJS)
 	${AR} rcs $@ $?
-	@#${RANLIB} $@
+	${RANLIB} $@
 	@#ar rcs $@ $?
-	ranlib $@
+	@#ranlib $@
 
 clean:
 	rm -f $(LOCAL_MODULE) *.o

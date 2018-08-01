@@ -740,6 +740,12 @@ static int ReportError(SubprocessProtocol protocol, const std::string& message) 
     adb_close(pipefd[1]);
     return pipefd[0];
 }
+/* cross stdc++14 error:now is c++11 */
+template<typename T, typename... Ts>
+std::unique_ptr<T> make_unique(Ts&&... params)
+{
+            return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
+}
 
 int StartSubprocess(const char* name, const char* terminal_type,
                     SubprocessType type, SubprocessProtocol protocol) {
@@ -748,7 +754,7 @@ int StartSubprocess(const char* name, const char* terminal_type,
       protocol == SubprocessProtocol::kNone ? "none" : "shell",
       terminal_type, name);
 
-    auto subprocess = std::make_unique<Subprocess>(name, terminal_type, type, protocol);
+    auto subprocess = make_unique<Subprocess>(name, terminal_type, type, protocol);
     if (!subprocess) {
         LOG(ERROR) << "failed to allocate new subprocess";
         return ReportError(protocol, "failed to allocate new subprocess");

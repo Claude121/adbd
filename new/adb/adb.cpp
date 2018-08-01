@@ -48,7 +48,7 @@
 
 #if !ADB_HOST
 #include <cutils/properties.h>
-#include <sys/capability.h>
+#include <linux/capability.h>
 #include <sys/mount.h>
 #endif
 

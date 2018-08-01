@@ -1,0 +1,14 @@
+
+            Log tool based on adb
+            ---------------------
+        Include: adbd,logcat,toolbox
+This version depends on the /dev/android_adb (f_adb)
+
+all:
+     Separated From android adb tool
+
+adbd:
+    adb server in Embedded System
+
+logcat:
+     add kernel log cat function

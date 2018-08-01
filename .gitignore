@@ -2,3 +2,4 @@ tags
 tmp*
 *sw*
 *.o
+openssl

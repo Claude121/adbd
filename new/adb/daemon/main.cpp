@@ -226,6 +226,10 @@ int adbd_main(int server_port) {
 }
 
 int main(int argc, char** argv) {
+       // adb_trace_enable(ADB);
+       //adb_trace_enable(SOCKETS);
+       //adb_trace_enable(TRANSPORT);
+
     while (true) {
         static struct option opts[] = {
             {"root_seclabel", required_argument, nullptr, 's'},

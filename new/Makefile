@@ -1,5 +1,5 @@
 export openssldir := /home/claude.rao/Code/adbd/openssl
-export CROSS_COMPILE :=arm-linux-
+export CROSS_COMPILE :=
 CC  ?=$(CROSS_COMPILE)gcc
 CXX ?=$(CROSS_COMPILE)g++
 RANLIB ?=$(CROSS_COMPILE)ranlib
@@ -15,7 +15,7 @@ SUBDIRS= \
 	libcrypto_utils \
 	libcutils
 
-all: adb/adbd adbd.service
+all: adb/adbd adbd.service logcat/logcat
 
 makefiles:
 	@ts=$(top_srcdir); \
@@ -43,15 +43,20 @@ libcrypto_utils/libcrypto_utils.a: subdirs libcrypto_utils/android_pubkey.c
 adb/adbd adb/xdg-adbd: subdirs libcutils/libcutils.a base/libbase.a libcrypto_utils/libcrypto_utils.a $(top_srcdir)/adb/*.cpp adb/xdg-adbd.c
 	$(MAKE) -C adb
 
+logcat/logcat: subdirs base/libbase.a
+	$(MAKE) -C logcat
+
 clean: subdirs
 	$(MAKE) -C libcutils clean
 	$(MAKE) -C base clean
 	$(MAKE) -C libcrypto_utils clean
 	$(MAKE) -C adb clean
+	$(MAKE) -C logcat clean
 
 install: all
 	install -d -m 0755 $(DESTDIR)$(sbindir)
 	install -D -m 0755 adb/adbd $(DESTDIR)$(sbindir)
+	install -D -m 0755 logcat/logcat $(DESTDIR)$(sbindir)
 	install -D -m 0755 adb/xdg-adbd $(DESTDIR)$(sbindir)
 	install -d -m 0755 $(DESTDIR)$(prefix)/lib/systemd/system/
 	install -D -m 0644 $(top_srcdir)/adbd.service $(DESTDIR)$(prefix)/lib/systemd/system/

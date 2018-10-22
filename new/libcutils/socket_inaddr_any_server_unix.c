@@ -32,15 +32,27 @@
 /* open listen() port on any interface */
 int socket_inaddr_any_server(int port, int type)
 {
+#ifdef support_ipv6
     struct sockaddr_in6 addr;
+#else
+    struct sockaddr_in addr;
+#endif
     int s, n;
 
     memset(&addr, 0, sizeof(addr));
+#ifdef support_ipv6
     addr.sin6_family = AF_INET6;
     addr.sin6_port = htons(port);
     addr.sin6_addr = in6addr_any;
 
     s = socket(AF_INET6, type, 0);
+#else
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(port);
+    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+    s = socket(AF_INET, type, 0);
+#endif
     if (s < 0) return -1;
 
     n = 1;

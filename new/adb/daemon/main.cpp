@@ -226,9 +226,10 @@ int adbd_main(int server_port) {
 }
 
 int main(int argc, char** argv) {
-       // adb_trace_enable(ADB);
+       //adb_trace_enable(ADB);
        //adb_trace_enable(SOCKETS);
        //adb_trace_enable(TRANSPORT);
+       //adb_trace_enable(USB);
 
     while (true) {
         static struct option opts[] = {

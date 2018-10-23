@@ -59,6 +59,8 @@ LOCAL_CFLAGS := -DADB_HOST=0 -Wall -Wno-unused-parameter
 LOCAL_CFLAGS += -D_XOPEN_SOURCE -D_GNU_SOURCE -DHAVE_PTHREADS=1
 LOCAL_CFLAGS += -DADB_NON_ANDROID=1 -DADB_REVISION='"$(adb_version)"'
 LOCAL_CFLAGS += -DPROP_NAME_MAX=32 -DPROP_VALUE_MAX=92 -DALLOW_ADBD_NO_AUTH=1
+LOCAL_CFLAGS += --static
+
 LOCAL_INCLUDES := -I$(top_srcdir)/include \
 			      -I$(top_srcdir)/base/include/ \
 				  -I$(top_srcdir)/libcrypto_utils/include/ \

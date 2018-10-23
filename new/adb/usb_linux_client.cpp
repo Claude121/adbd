@@ -99,6 +99,55 @@ struct desc_v1 {
     struct func_desc fs_descs, hs_descs;
 } __attribute__((packed));
 
+#define PATCH 1
+#if (PATCH==1)
+struct usb_functionfs_descs_head_v2 {
+    __le32 magic;
+    __le32 length;
+    __le32 flags;
+    /*
+     * __le32 fs_count, hs_count, fs_count; must be included manually in
+     * the structure taking flags into consideration.
+     */
+} __attribute__((packed));
+
+/* MS OS Descriptor header */
+struct usb_os_desc_header {
+    __u8    interface;
+    __le32  dwLength;
+    __le16  bcdVersion;
+    __le16  wIndex;
+    union {
+        struct {
+            __u8    bCount;
+            __u8    Reserved;
+        };
+        __le16  wCount;
+    };
+} __attribute__((packed));
+
+struct usb_ext_compat_desc {
+    __u8    bFirstInterfaceNumber;
+    __u8    Reserved1;
+    __u8    CompatibleID[8];
+    __u8    SubCompatibleID[8];
+    __u8    Reserved2[6];
+};
+
+enum {
+    FUNCTIONFS_DESCRIPTORS_MAGIC_V2 = 3,
+};
+
+enum functionfs_flags {
+    FUNCTIONFS_HAS_FS_DESC = 1,
+    FUNCTIONFS_HAS_HS_DESC = 2,
+    FUNCTIONFS_HAS_SS_DESC = 4,
+    FUNCTIONFS_HAS_MS_OS_DESC = 8,
+    FUNCTIONFS_VIRTUAL_ADDR = 16,
+    FUNCTIONFS_EVENTFD = 32,
+};
+#endif
+
 struct desc_v2 {
     struct usb_functionfs_descs_head_v2 header;
     // The rest of the structure depends on the flags in the header.

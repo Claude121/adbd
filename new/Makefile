@@ -1,5 +1,5 @@
-export openssldir := /home/claude.rao/Code/adbd/openssl
-export CROSS_COMPILE :=
+export openssldir := /users/claude.rao/Code/App/adb/adbd/openssl
+export CROSS_COMPILE := arm-linux-
 CC  ?=$(CROSS_COMPILE)gcc
 CXX ?=$(CROSS_COMPILE)g++
 RANLIB ?=$(CROSS_COMPILE)ranlib
@@ -15,7 +15,7 @@ SUBDIRS= \
 	libcrypto_utils \
 	libcutils
 
-all: adb/adbd adbd.service logcat/logcat
+all: adb/adbd adbd.service
 
 makefiles:
 	@ts=$(top_srcdir); \

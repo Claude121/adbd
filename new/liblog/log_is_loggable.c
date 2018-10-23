@@ -19,7 +19,8 @@
 #include <stdlib.h>
 #include <string.h>
 #define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
-#include <sys/_system_properties.h>
+#include <stdint.h>
+#include "_system_properties.h"
 
 #include <android/log.h>
 

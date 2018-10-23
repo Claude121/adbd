@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+#include <signal.h>
 #include <endian.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -288,7 +288,7 @@ static ssize_t send_log_msg(struct android_log_logger *logger,
     while ((ret = TEMP_FAILURE_RETRY(read(sock, cp, len))) > 0) {
         struct pollfd p;
 
-        if (((size_t)ret == len) || (buf_size < PAGE_SIZE)) {
+        if (((size_t)ret == len) || (buf_size < getpagesize())) {
             break;
         }
 

@@ -1,5 +1,5 @@
-export openssldir := /users/claude.rao/Code/App/adb/adbd/openssl
-export CROSS_COMPILE := arm-linux-
+export openssldir := /home/claude.rao/Code/adbd/openssl
+export CROSS_COMPILE := 
 CC  ?=$(CROSS_COMPILE)gcc
 CXX ?=$(CROSS_COMPILE)g++
 RANLIB ?=$(CROSS_COMPILE)ranlib
@@ -13,7 +13,8 @@ SUBDIRS= \
 	adb/daemon \
 	base \
 	libcrypto_utils \
-	libcutils
+	libcutils \
+	liblog
 
 all: adb/adbd adbd.service
 
@@ -31,6 +32,9 @@ makefiles:
 	    done ; \
 	fi
 
+liblog/liblog.a: subdirs $(top_srcdir)/liblog/*.c $(top_srcdir)/liblog/*.cpp
+	$(MAKE) -C liblog
+
 libcutils/libcutils.a: subdirs $(top_srcdir)/libcutils/*.c $(top_srcdir)/libcutils/*.cpp
 	$(MAKE) -C libcutils
 
@@ -43,10 +47,11 @@ libcrypto_utils/libcrypto_utils.a: subdirs libcrypto_utils/android_pubkey.c
 adb/adbd adb/xdg-adbd: subdirs libcutils/libcutils.a base/libbase.a libcrypto_utils/libcrypto_utils.a $(top_srcdir)/adb/*.cpp adb/xdg-adbd.c
 	$(MAKE) -C adb
 
-logcat/logcat: subdirs base/libbase.a
+logcat/logcat: subdirs liblog/liblog.a base/libbase.a libcutils/libcutils.a
 	$(MAKE) -C logcat
 
 clean: subdirs
+	$(MAKE) -C liblog clean
 	$(MAKE) -C libcutils clean
 	$(MAKE) -C base clean
 	$(MAKE) -C libcrypto_utils clean

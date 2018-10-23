@@ -84,6 +84,11 @@ static size_t g_maxCount;
 static size_t g_printCount;
 static bool g_printItAnyways;
 
+#ifdef __GLIBC__
+#define __noreturn __attribute__((noreturn))
+#define __printflike(n, m) __attribute__((format(printf,n,m)))
+#endif
+
 // if showHelp is set, newline required in fmt statement to transition to usage
 __noreturn static void logcat_panic(bool showHelp, const char *fmt, ...) __printflike(2,3);
 
@@ -423,7 +428,8 @@ static void logcat_panic(bool showHelp, const char *fmt, ...)
     va_end(args);
 
     if (showHelp) {
-       show_help(getprogname());
+       //show_help(getprogname());
+       show_help("logcat");
     }
 
     exit(EXIT_FAILURE);
